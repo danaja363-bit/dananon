@@ -1,0 +1,288 @@
+html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DANZ MARKET</title>
+    <style>
+        /* CSS ini biar web lo gak keliatan kayak sampah, tolol. */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1c; /* Background gelap biar sangar */
+            color: #f0f0f0; /* Teks terang biar kebaca */
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        header {
+            background-color: #333;
+            color: #ffcc00; /* Warna emas biar kelihatan sultan */
+            padding: 1.5rem 0;
+            text-align: center;
+            border-bottom: 3px solid #ff0000; /* Garis merah darah */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        header p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-top: 10px;
+        }
+        .container {
+            width: 90%;
+            max-width: 900px; /* Lebih kecil, fokus ke pembayaran */
+            margin: 30px auto;
+            padding: 30px;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+        }
+        h2 {
+            text-align: center;
+            color: #ffcc00;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+            border-bottom: 2px dashed #ff0000;
+            padding-bottom: 15px;
+        }
+        .payment-methods {
+            background-color: #3e3e3e;
+            border: 2px solid #ff0000; /* Garis merah tebal */
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 50px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+        .payment-methods h3 {
+            color: #00ff00; /* Judul hijau neon */
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .payment-methods ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            justify-content: center;
+        }
+        .payment-methods ul li {
+            background-color: #4a4a4a;
+            margin-bottom: 10px;
+            padding: 18px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            border-left: 5px solid #00ffff; /* Garis biru terang di kiri */
+            transition: background-color 0.3s ease;
+            text-align: left;
+        }
+        .payment-methods ul li:hover {
+            background-color: #5a5a5a;
+        }
+        .payment-methods ul li strong {
+            color: #ffcc00;
+        }
+        .payment-methods p {
+            margin-top: 30px;
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: bold;
+            border-top: 1px solid #555;
+            padding-top: 20px;
+        }
+        .whatsapp-btn-fixed {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366; /* Warna WhatsApp asli */
+            color: #fff;
+            padding: 18px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .whatsapp-btn-fixed:hover {
+            background-color: #128c7e;
+            transform: scale(1.05);
+        }
+        .whatsapp-btn-fixed img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Styling untuk "Struk Pembayaran" */
+        #paymentReceipt {
+            display: none; /* Awalnya sembunyikan, bego! */
+            background-color: #3e3e3e;
+            border: 3px solid #00ff00; /* Border hijau neon */
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 60px;
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.4); /* Glow hijau */
+            text-align: left;
+        }
+        #paymentReceipt h2 {
+            color: #00ff00;
+            border-bottom: 2px dashed #00ff00;
+            margin-bottom: 30px;
+        }
+        #paymentReceipt p {
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+        }
+        #paymentReceipt strong {
+            color: #ffcc00;
+        }
+        .receipt-detail {
+            background-color: #4a4a4a;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 7px;
+            border-left: 4px solid #00ffff;
+        }
+        #btnShowReceipt {
+            display: block;
+            margin: 40px auto 0 auto;
+            background-color: #ff0000;
+            color: #fff;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        #btnShowReceipt:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 60px;
+            background-color: #333;
+            color: #aaa;
+            border-top: 3px solid #ff0000;
+            font-size: 1rem;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.7);
+        }
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- MUSIC BIAR GK SEPI! ->
+    <audio autoplay loop>
+        <source src="https://alright-azure-cx8xteii.edgeone.app/AUD-20260429-WA0221.mp3">
+
+    </audio>
+
+    <header>
+        <h1>DANZ MARKET - Pembayaran Neraka</h1>
+        <p>Bayar Sekarang Atau Kena Santet Online!</p>
+    </header>
+
+    <div class="container">
+        <h2>Pilih Metode Pembayaran, Dasar Penipu!</h2>
+
+        <div class="payment-methods">
+            <h3>Cara Bayar Duit Lo Ke Gue:</h3>
+            <ul>
+                <li>
+                    <strong>Transfer Bank (BCA):</strong><br>
+                    Nomor Rekening: BLM OPN<br>
+                    Atas Nama:
+                </li>
+                <li>
+                    <strong>Transfer Bank (Mandiri):</strong><br>
+                    Nomor Rekening: BLM OPN<br>
+                    Atas Nama:
+                </li>
+                <li>
+                    <strong>E-Wallet (OVO / GoPay / DANA):</strong><br>
+                    Nomor Telepon: 083194058051<br>
+                    Atas Nama: DANZ KEPARAT (QR MINTA KE WA!)
+                </li>
+            </ul>
+            <p><strong>PENTING:</strong> Setelah transfer, tekan tombol di bawah lalu screenshot struknya, dan kirim bukti pembayaran lo lewat WhatsApp! Jangan sampai lupa, nanti duit lo hilang ditelan bumi, gue gak tanggung jawab!</p>
+        </div>
+
+        <button id="btnShowReceipt">KLIK INI SETELAH TRANSFER, BEGO!</button>
+
+        <!-- Ini "Struk Pembayaran" bohongan lo. Akan muncul setelah tombol di atas diklik. -->
+        <div id="paymentReceipt">
+            <h2>STRUK PEMBAYARAN - !</h2>
+            <div class="receipt-detail">
+                <p><strong>Status:</strong> <span style="color:#00ff00;">PEMBAYARAN TERKONFIRMASI</span></p>
+                <p><strong>Tanggal Transaksi:</strong> <span id="receiptDate">2024-07-26 14:30:00(sesuai)</span></p>
+            </div>
+            <div class="receipt-detail">
+                <p><strong>Nominal Transfer:</strong> <strong><span id="receiptAmount">Rp 5.000.000,- (Contoh)</span></strong></p>
+                <p><strong>Tujuan Pembayaran:</strong> DANZ MARKET</p>
+                <p><strong>Metode Pembayaran:</strong> Bank Transfer BCA (Sesuai Pilihan Lo, Kalo Bener)</p>
+            </div>
+            <div class="receipt-detail">
+                <p><strong>Nomor Transaksi:</strong> <span id="receiptTransactionId">DANZMARKET-XYZ123ABC</span></p>
+                <p><strong>Pesan Penting:</strong> Ini cuma contoh, tolol! Screenshot ini dan kirim ke WhatsApp Admin kami! Nanti beneran gue cek di rekening. Kalo bohong, mati aja lo!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tombol WhatsApp: Ganti nomor telepon +6281234567890 sama nomor lo, tolol! -->
+    <a href="https://wa.me/6283184341795?text=Halo%20Danz%20Market,%20gue%20udah%20transfer%20nih!%20Ini%20bukti%20struknya!" class="whatsapp-btn-fixed" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon">
+        Konfirmasi ke Admin (WA)
+    </a>
+
+    <footer>
+        <p>&copy; 2024 Danz Market Payment. Nggak usah macem-macem, duit lo cuma numpang lewat. 🔥💀</p>
+    </footer>
+
+    <script>
+        // Ini JavaScript buat munculin struknya, dasar males baca manual!
+        document.getElementById('btnShowReceipt').addEventListener('click', function() {
+            var receiptSection = document.getElementById('paymentReceipt');
+            if (receiptSection.style.display === 'none' || receiptSection.style.display === '') {
+                receiptSection.style.display = 'block';
+
+                // Update tanggal dan waktu biar kelihatan asli, padahal bohong!
+                var now = new Date();
+                var formattedDate = now.getFullYear() + '-' +
+                                    ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
+                                    ('0' + now.getDate()).slice(-2) + ' ' +
+                                    ('0' + now.getHours()).slice(-2) + ':' +
+                                    ('0' + now.getMinutes()).slice(-2) + ':' +
+                                    ('0' + now.getSeconds()).slice(-2);
+                document.getElementById('receiptDate').textContent = formattedDate;
+
+                // Ini cuma contoh ID transaksi, yang asli cuma di bank, bego!
+                document.getElementById('receiptTransactionId').textContent = 'TRX-' + Math.random().toString(36).substring(2, 15).toUpperCase();
+            } else {
+                receiptSection.style.display = 'none'; // Kalo diklik lagi, disembunyiin lagi, gitu aja terus sampe lo cape!
+            }
+        });
+    </script>
+</body>
+</html>
